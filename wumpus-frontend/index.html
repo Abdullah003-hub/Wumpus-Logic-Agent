@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wumpus World — Static Frontend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <h1>Wumpus<span>World</span> — Static Frontend</h1>
+  <span class="header-badge">No Backend Required</span>
+</header>
+
+<!-- Game Over Banner -->
+<div id="overlay" onclick="closeBanner()"></div>
+<div id="status-banner">
+  <h2 id="banner-title"></h2>
+  <p id="banner-msg"></p>
+  <button class="primary" onclick="closeBanner(); newGame()">Play Again</button>
+</div>
+
+<div class="app">
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="ctrl-group">
+      <label>Rows</label>
+      <input type="number" id="inp-rows" value="4" min="3" max="7">
+    </div>
+    <div class="ctrl-group">
+      <label>Cols</label>
+      <input type="number" id="inp-cols" value="4" min="3" max="7">
+    </div>
+    <div class="ctrl-group">
+      <label>Pits</label>
+      <input type="number" id="inp-pits" value="3" min="1" max="8">
+    </div>
+    <div class="divider"></div>
+    <button class="primary" onclick="newGame()">⟳ New Game</button>
+    <button id="btn-step" onclick="doStep()" disabled>Agent Step →</button>
+    <button id="btn-auto" onclick="toggleAuto()" disabled>▶ Auto Run</button>
+  </div>
+
+  <!-- Grid Canvas -->
+  <div class="canvas">
+    <div id="grid-outer">
+      <div id="grid"></div>
+    </div>
+    <div class="legend">
+      <div class="leg"><div class="leg-swatch" style="background:#0f1535"></div>Unexplored</div>
+      <div class="leg"><div class="leg-swatch" style="background:linear-gradient(135deg, rgba(0, 217, 255, 0.25) 0%, rgba(0, 153, 204, 0.15) 100%);border-color:rgba(0, 217, 255,.4)"></div>Agent</div>
+      <div class="leg"><div class="leg-swatch" style="background:linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 204, 102, 0.08) 100%);border-color:rgba(0,255,136,.4)"></div>Safe (proven)</div>
+      <div class="leg"><div class="leg-swatch" style="background:linear-gradient(135deg, rgba(0, 217, 255, 0.12) 0%, rgba(0, 153, 204, 0.08) 100%)"></div>Visited</div>
+      <div class="leg"><div class="leg-swatch" style="background:linear-gradient(135deg, rgba(255, 23, 68, 0.2) 0%, rgba(255, 23, 68, 0.08) 100%);border-color:rgba(255,23,68,.4)"></div>Pit</div>
+      <div class="leg"><div class="leg-swatch" style="background:linear-gradient(135deg, rgba(178, 75, 255, 0.2) 0%, rgba(178, 75, 255, 0.08) 100%);border-color:rgba(178,75,255,.4)"></div>Wumpus</div>
+      <div class="leg"><div class="leg-swatch" style="background:linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0.08) 100%);border-color:rgba(255,215,0,.5)"></div>Gold</div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <!-- Metrics -->
+    <div class="panel">
+      <div class="panel-title">Real-time metrics</div>
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="val" id="m-infer">0</div>
+          <div class="lbl">Log entries</div>
+        </div>
+        <div class="metric-card">
+          <div class="val" id="m-clauses">0</div>
+          <div class="lbl">KB clauses</div>
+        </div>
+        <div class="metric-card">
+          <div class="val" id="m-visited">0</div>
+          <div class="lbl">Cells visited</div>
+        </div>
+        <div class="metric-card">
+          <div class="val" id="m-safe">0</div>
+          <div class="lbl">Safe proven</div>
+        </div>
+      </div>
+      <div class="metric-pos">Agent @ <span id="m-pos">—</span></div>
+    </div>
+
+    <!-- Percepts -->
+    <div class="panel">
+      <div class="panel-title">Active percepts</div>
+      <div class="percept-row" id="percept-display">
+        <span class="ptag-none">Start a game…</span>
+      </div>
+    </div>
+
+    <!-- KB Clauses -->
+    <div class="panel">
+      <div class="panel-title">Knowledge base</div>
+      <div id="kb-display">—</div>
+    </div>
+
+    <!-- Agent Log -->
+    <div class="panel" style="flex:1">
+      <div class="panel-title">Agent log</div>
+      <div id="log"><div class="log-entry log-info">Press "New Game" to begin.</div></div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- Scripts -->
+<script src="script.js"></script>
+</body>
+</html>
